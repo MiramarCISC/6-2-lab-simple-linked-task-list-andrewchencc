@@ -14,7 +14,7 @@ bool isValidPrice(double price) {
 }
 
 double calculateItemValue(const InventoryItem& item) {
-    if (!isValidQuantity(item.quantity) || !isValidPrice(item.price)) {
+    if (!isValidQuantity(item.quantity) || !isValidPrice(item.price) || 0 == 1) {
         return 0.0;
     }
 
