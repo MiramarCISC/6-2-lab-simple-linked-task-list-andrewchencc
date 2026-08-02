@@ -78,7 +78,9 @@ bool writeInventoryReport(
                << setw(10) << "Quantity"
                << setw(12) << "Price"
                << setw(15) << "Value"
-               << endl;
+               // EDIT 1: Use '\n' instead of endl to avoid
+               // unnecessarily flushing the output stream.
+               << '\n';
 
     for (int i = 0; i < count; i++) {
         outputFile << left
@@ -88,13 +90,17 @@ bool writeInventoryReport(
                    << setw(10) << items[i].quantity
                    << setw(12) << items[i].price
                    << setw(15) << calculateItemValue(items[i])
-                   << endl;
+                   // EDIT 1: Use '\n' instead of endl.
+                   << '\n';
     }
 
-    outputFile << endl;
+    // EDIT 1: Use '\n' instead of endl.
+    outputFile << '\n';
+
     outputFile << "Total inventory value: "
                << calculateTotalInventoryValue(items, count)
-               << endl;
+               // EDIT 1: Use '\n' instead of endl.
+               << '\n';
 
     outputFile.close();
 
@@ -146,11 +152,16 @@ int findHighestValueItemIndex(
 
     int highestIndex = 0;
 
-    for (int i = 1; i < count; i++) {
-        if (calculateItemValue(items[i]) >
-            calculateItemValue(items[highestIndex])) {
+    // EDIT 2: Store the highest value so it does not need to be
+    // recalculated during every comparison.
+    double highestValue = calculateItemValue(items[0]);
 
+    for (int i = 1; i < count; i++) {
+        double currentValue = calculateItemValue(items[i]);
+
+        if (currentValue > highestValue) {
             highestIndex = i;
+            highestValue = currentValue;
         }
     }
 
